@@ -1,0 +1,33 @@
+WITH t1 AS (
+  SELECT
+    c.name,
+    NTILE(4) OVER (
+      ORDER BY
+        f.rental_duration
+    ) AS standard_quartile
+  FROM
+    film f
+    JOIN film_category fc ON fc.film_id = f.film_id
+    JOIN category c ON c.category_id = fc.category_id
+  WHERE
+    c.name IN (
+      'Animation',
+      'Children',
+      'Classics',
+      'Comedy',
+      'Family',
+      'Music'
+    )
+)
+SELECT
+  name,
+  standard_quartile,
+  count(standard_quartile) total
+FROM
+  t1
+GROUP BY
+  name,
+  standard_quartile
+ORDER BY
+  name,
+  standard_quartile
