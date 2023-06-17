@@ -1,0 +1,21 @@
+SELECT
+  EXTRACT(
+    'MONTH'
+    FROM
+      r.rental_date
+  ) AS month,
+  EXTRACT(
+    'YEAR'
+    FROM
+      r.rental_date
+  ) AS year,
+  staff_id AS store_id,
+  count(*) AS count_rentals
+FROM
+  rental r
+GROUP BY
+  1,
+  2,
+  3
+ORDER BY
+  4 DESC
